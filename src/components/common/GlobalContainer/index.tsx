@@ -1,12 +1,20 @@
-import React from 'react'
-import Header from '../../layout/Header'
+import { FC, memo, ReactNode } from 'react';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import Header from '../../layout/Header';
 
-const GlobalContainer = () => {
+interface IProps {
+  children: ReactNode;
+}
+const GlobalContainer: FC<IProps> = memo(({ children }) => {
+  const isAuth = useAppSelector((store) => store.auth.isAuth);
+
   return (
     <div className="px-20 mx-auto xl:px-20 overflow-x-hidden">
-      <Header/>
-    </div>
-  )
-}
+      {isAuth && <Header />}
 
-export default GlobalContainer
+      {children}
+    </div>
+  );
+});
+
+export default GlobalContainer;

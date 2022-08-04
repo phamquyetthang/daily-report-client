@@ -1,26 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import RootRouter from './pages/router';
+import { Provider } from 'react-redux';
+import rootStore from './rootStore';
+import i18n from './i18n';
+import { I18nextProvider } from 'react-i18next';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <I18nextProvider i18n={i18n}>
+      <Provider store={rootStore}>
+        <RootRouter />
+      </Provider>
+    </I18nextProvider>
   );
-}
+};
 
 export default App;
