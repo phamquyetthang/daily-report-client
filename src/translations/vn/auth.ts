@@ -3,7 +3,13 @@ import { DotNestedKeys } from '../../utils/type';
 const authTranslate = {
   title: {
     login: 'Đăng nhập',
-    signUp: 'Đăng ký',
+    register: 'Đăng ký',
+    forgot: "Quên mật khẩu"
+  },
+  welcome: {
+    login: 'Welcome Back',
+    register: 'User email in Slack',
+    forgot: 'Email will send to you by slack',
   },
   requiredFeild: 'Không được bỏ trống',
   invalid: 'Trường không hợp lệ !',
