@@ -11,7 +11,7 @@ const taskTranslate: TaskTranslateType = {
   document: 'Document',
   notification: 'notification',
   empty: 'Has no record to display!',
-  comment: "Comment"
+  comment: 'Comment',
 };
 
 export default taskTranslate;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -10,7 +10,7 @@ interface IAuthForm {
 }
 const AuthScreen = () => {
   const { type } = useParams<{ type: 'login' | 'register' | 'forgot' }>();
-  const [authType, setAuthType] = useState<'login' | 'register' | 'forgot'>('login')
+  const [authType, setAuthType] = useState<'login' | 'register' | 'forgot'>('login');
 
   const isAuth = useAppSelector((store) => store.auth.isAuth);
 
@@ -18,7 +18,11 @@ const AuthScreen = () => {
 
   const word = useAppTranslate();
 
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm<IAuthForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<IAuthForm>();
 
   useEffect(() => {
     if (isAuth) {
@@ -27,11 +31,11 @@ const AuthScreen = () => {
   }, [isAuth, navigate]);
 
   useEffect(() => {
-    !!type && setAuthType(type)
+    !!type && setAuthType(type);
     if (type !== 'login' && type !== 'forgot' && type !== 'register') {
-      navigate('/auth/login')
+      navigate('/auth/login');
     }
-  }, [type])
+  }, [type]);
 
   return (
     <div className="flex w-full h-screen justify-center items-center bg-white space-y-8 app-auth__form">
@@ -60,34 +64,37 @@ const AuthScreen = () => {
             </svg>
             <input
               className="pl-2 w-full outline-none border-none"
-              {...register("email", {
-                required: true, pattern: {
+              {...register('email', {
+                required: true,
+                pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "invalid email address"
-                }
+                  message: 'invalid email address',
+                },
               })}
               placeholder="Email Address"
             />
           </div>
-          {authType !== 'forgot' && <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clipRule="evenodd"
+          {authType !== 'forgot' && (
+            <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <input
+                className="pl-2 w-full outline-none border-none"
+                {...register('password', { required: true })}
+                placeholder="Password"
               />
-            </svg>
-            <input
-              className="pl-2 w-full outline-none border-none"
-              {...register('password', { required: true })}
-              placeholder="Password"
-            />
-          </div>}
+            </div>
+          )}
           {JSON.stringify(errors)}
           <button
             type="submit"
@@ -97,7 +104,10 @@ const AuthScreen = () => {
             {word(`authTranslate.title.${authType}`)}
           </button>
           <div className="flex justify-between mt-4">
-            <Link to={`/auth/forgot`} className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
+            <Link
+              to={`/auth/forgot`}
+              className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+            >
               Forgot Password ?
             </Link>
 

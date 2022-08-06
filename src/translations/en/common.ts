@@ -7,11 +7,11 @@ const commonTranslate: CommonTranslateType = {
   editStatus: 'Edit status',
   editProfile: 'Edit profile',
   preferences: 'Preferences',
-  logout: "Logout",
-  dashboard: "Dashboard",
-  filter: "Filter",
+  logout: 'Logout',
+  dashboard: 'Dashboard',
+  filter: 'Filter',
   project: 'Projects',
-  snippet: 'Code Templates'
+  snippet: 'Code Templates',
 };
 
 export default commonTranslate;

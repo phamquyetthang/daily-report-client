@@ -34,7 +34,10 @@ const Header = () => {
                   aria-haspopup="true"
                   aria-expanded="true"
                 >
-                  <img className="w-8 h-8 rounded-full" alt="Avatar" />
+                  <img
+                    className="w-8 h-8 rounded-full"
+                    alt="Avatar"
+                  />
                 </button>
               </div>
 

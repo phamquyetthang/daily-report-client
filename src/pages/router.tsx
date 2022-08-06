@@ -8,10 +8,29 @@ const RootRouter = () => {
     <BrowserRouter>
       <GlobalContainer>
         <Routes>
-          <Route path="/" element={<Navigate to={'auth/login'} replace />} />
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={'auth/login'}
+                replace
+              />
+            }
+          />
           <Route path="auth">
-            <Route path="" element={<Navigate to={'login'} replace />} />
-            <Route path=":type" element={<AuthScreen />} />
+            <Route
+              path=""
+              element={
+                <Navigate
+                  to={'login'}
+                  replace
+                />
+              }
+            />
+            <Route
+              path=":type"
+              element={<AuthScreen />}
+            />
           </Route>
         </Routes>
       </GlobalContainer>

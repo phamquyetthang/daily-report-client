@@ -22,14 +22,11 @@ export const signInService = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
-  }
+  },
 );
 export const signUpService = createAsyncThunk(
   'auth/signUp',
-  async (
-    { first_name, last_name, email, password, callback }: ISignUpRep,
-    thunkAPI
-  ) => {
+  async ({ first_name, last_name, email, password, callback }: ISignUpRep, thunkAPI) => {
     try {
       const response = await postService('/user/register', {
         first_name,
@@ -42,7 +39,7 @@ export const signUpService = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
-  }
+  },
 );
 export const forgotService = createAsyncThunk(
   'auth/forgot',
@@ -56,7 +53,7 @@ export const forgotService = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
-  }
+  },
 );
 const authSlice = createSlice({
   name: 'auth',
@@ -81,43 +78,31 @@ const authSlice = createSlice({
       .addCase(signInService.pending, (state: IAuthState) => {
         state.loading = true;
       })
-      .addCase(
-        signInService.fulfilled,
-        (state: IAuthState, { payload }: PayloadAction<string>) => {
-          state.token = payload;
-          state.isAuth = true;
-          state.error = '';
-          state.loading = false;
-        }
-      )
-      .addCase(
-        signInService.rejected,
-        (state: IAuthState, { payload }: PayloadAction<any>) => {
-          state.error = payload;
-          state.isAuth = false;
-          state.loading = false;
-        }
-      )
+      .addCase(signInService.fulfilled, (state: IAuthState, { payload }: PayloadAction<string>) => {
+        state.token = payload;
+        state.isAuth = true;
+        state.error = '';
+        state.loading = false;
+      })
+      .addCase(signInService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
+        state.error = payload;
+        state.isAuth = false;
+        state.loading = false;
+      })
       .addCase(signUpService.pending, (state: IAuthState) => {
         state.loading = true;
       })
-      .addCase(
-        signUpService.fulfilled,
-        (state: IAuthState, { payload }: PayloadAction<string>) => {
-          state.token = payload;
-          state.isAuth = true;
-          state.error = '';
-          state.loading = false;
-        }
-      )
-      .addCase(
-        signUpService.rejected,
-        (state: IAuthState, { payload }: PayloadAction<any>) => {
-          state.error = payload;
-          state.loading = false;
-          state.isAuth = false;
-        }
-      )
+      .addCase(signUpService.fulfilled, (state: IAuthState, { payload }: PayloadAction<string>) => {
+        state.token = payload;
+        state.isAuth = true;
+        state.error = '';
+        state.loading = false;
+      })
+      .addCase(signUpService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
+        state.error = payload;
+        state.loading = false;
+        state.isAuth = false;
+      })
       .addCase(forgotService.pending, (state: IAuthState) => {
         state.loading = true;
       })
@@ -125,13 +110,10 @@ const authSlice = createSlice({
         state.error = '';
         state.loading = false;
       })
-      .addCase(
-        forgotService.rejected,
-        (state: IAuthState, { payload }: PayloadAction<any>) => {
-          state.error = payload;
-          state.loading = false;
-        }
-      );
+      .addCase(forgotService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
+        state.error = payload;
+        state.loading = false;
+      });
   },
 });
 

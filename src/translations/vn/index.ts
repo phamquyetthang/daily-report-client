@@ -1,7 +1,7 @@
 import authTranslate from './auth';
 import welcomeTranslate from './welcome';
 import commonTranslate from './common';
-import docTranslate from './doc'
+import docTranslate from './doc';
 import taskTranslate from './task';
 import { DotNestedKeys } from '../../utils/type';
 const VN = {
@@ -10,10 +10,10 @@ const VN = {
   authTranslate,
   welcomeTranslate,
   docTranslate,
-  taskTranslate
+  taskTranslate,
 };
 
 export default VN;
 
-export type TranslateType = typeof VN
-export type TranslateKeyType = DotNestedKeys<TranslateType>
+export type TranslateType = typeof VN;
+export type TranslateKeyType = DotNestedKeys<TranslateType>;

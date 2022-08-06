@@ -3,11 +3,7 @@ import rootStore from '../rootStore';
 
 export const HOST_API = process.env.REACT_APP_API_HOST;
 
-export const postService = async (
-  url: string,
-  body: any,
-  authentication = true
-) => {
+export const postService = async (url: string, body: any, authentication = true) => {
   try {
     const token = rootStore.getState().auth.token;
     const headers = {
@@ -17,11 +13,7 @@ export const postService = async (
     };
     axios.defaults.withCredentials = true;
 
-    const response = await axios.post(
-      `${HOST_API + url}`,
-      JSON.stringify(body),
-      { headers }
-    );
+    const response = await axios.post(`${HOST_API + url}`, JSON.stringify(body), { headers });
     if (response.status >= 200 && response.status <= 210) {
       return response.data;
     }
@@ -83,14 +75,10 @@ export const putService = async (url: string, body: any) => {
       ...(token ? { 'x-auth-token': token } : {}),
     };
 
-    const response = await axios.put(
-      `${HOST_API + url}`,
-      JSON.stringify(body),
-      {
-        headers: headers,
-        withCredentials: true,
-      }
-    );
+    const response = await axios.put(`${HOST_API + url}`, JSON.stringify(body), {
+      headers: headers,
+      withCredentials: true,
+    });
 
     if (response.status >= 200 && response.status <= 210) {
       return response.data;

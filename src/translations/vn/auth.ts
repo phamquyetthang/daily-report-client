@@ -4,7 +4,7 @@ const authTranslate = {
   title: {
     login: 'Đăng nhập',
     register: 'Đăng ký',
-    forgot: "Quên mật khẩu"
+    forgot: 'Quên mật khẩu',
   },
   welcome: {
     login: 'Welcome Back',

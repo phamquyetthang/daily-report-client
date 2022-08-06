@@ -2,9 +2,9 @@ import { AuthTransLateType } from '../vn/auth';
 
 const authTranslate: AuthTransLateType = {
   title: {
-    login: "Sign In",
+    login: 'Sign In',
     register: 'Sign Up',
-    forgot: "Forgot password",
+    forgot: 'Forgot password',
   },
   welcome: {
     login: 'Welcome Back',

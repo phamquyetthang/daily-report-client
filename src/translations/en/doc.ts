@@ -19,7 +19,7 @@ const docTranslate: DocTranslateType = {
   notification: 'Notifications',
   document: 'Document',
   lab: 'Test zone',
-  empty: "Has no data to display"
+  empty: 'Has no data to display',
 };
 
 export default docTranslate;
