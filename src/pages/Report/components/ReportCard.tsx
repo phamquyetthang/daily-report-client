@@ -2,6 +2,7 @@ import React, { FC, useMemo } from 'react';
 import IReport from '../../../services/report/type';
 import moment from 'moment';
 import clsx from 'clsx';
+import { ScheduleTagWrapper } from '../style';
 interface IProps {
   report: IReport;
   isSelected?: boolean;
@@ -25,7 +26,7 @@ const ReportCard: FC<IProps> = ({ report, isSelected }) => {
         { 'border-yellow-500': typeDate === 2 },
       )}
     >
-      <i className="schedule-tag"> schedule</i>
+      {typeDate === 2 && <ScheduleTagWrapper> schedule</ScheduleTagWrapper>}
 
       <div className="m-2 text-justify text-sm">
         <p className="text-right text-xs">{moment(report.date).format('L')}</p>
@@ -41,14 +42,12 @@ const ReportCard: FC<IProps> = ({ report, isSelected }) => {
         ))}
         {report.re_open_bug && (
           <p>
-            🐞{' '}
             <i>
-              <b>Re-open bug</b>
+              <b>🐞 Re-open bug: </b>
             </i>
-            : {report.re_open_bug}
+            {report.re_open_bug}
             <br />
             <span>
-              {' '}
               <i>Reason</i>: {report.reason_bug}
             </span>
           </p>
@@ -56,10 +55,9 @@ const ReportCard: FC<IProps> = ({ report, isSelected }) => {
 
         {report.highlight_yesterday && (
           <p>
-            ⚡{' '}
             <i>
-              <b>Highlight :</b>
-            </i>{' '}
+              <b>⚡ Highlight : </b>
+            </i>
             {report.highlight_yesterday}
           </p>
         )}
