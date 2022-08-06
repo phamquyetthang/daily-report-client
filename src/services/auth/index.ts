@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { postService } from '../../utils/http';
-import { IAuthState, ISignInRep, ISignUpRep } from './types';
+import { addSnackBar } from '../app';
+import { IAuthRequest, IAuthState } from './types';
 
 const initialState: IAuthState = {
   loading: false,
@@ -10,14 +11,15 @@ const initialState: IAuthState = {
 };
 
 export const signInService = createAsyncThunk(
-  'auth/signIn',
-  async ({ email, password, callback }: ISignInRep, thunkAPI) => {
+  'auth/login',
+  async ({ email, password, callback }: IAuthRequest, thunkAPI) => {
     try {
       const response = await postService('/auth/signIn', {
         email,
         password,
       });
       callback();
+      thunkAPI.dispatch(addSnackBar({ type: 'info', message: 'Login successfully' }));
       return response.token;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -25,30 +27,31 @@ export const signInService = createAsyncThunk(
   },
 );
 export const signUpService = createAsyncThunk(
-  'auth/signUp',
-  async ({ first_name, last_name, email, password, callback }: ISignUpRep, thunkAPI) => {
+  'auth/register',
+  async ({ email, password, callback }: IAuthRequest, thunkAPI) => {
     try {
       const response = await postService('/user/register', {
-        first_name,
-        last_name,
         email,
         password,
       });
       callback();
+      thunkAPI.dispatch(addSnackBar({ type: 'info', message: 'Create account successfully' }));
       return response.token;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error as string);
     }
   },
 );
 export const forgotService = createAsyncThunk(
   'auth/forgot',
-  async ({ email, callback }: ISignUpRep, thunkAPI) => {
+  async ({ email }: { email: string }, thunkAPI) => {
     try {
       const response = await postService('/auth/forgot', {
         email,
       });
-      callback();
+      thunkAPI.dispatch(
+        addSnackBar({ type: 'info', message: 'Your new password will be send in slack.' }),
+      );
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -84,8 +87,8 @@ const authSlice = createSlice({
         state.error = '';
         state.loading = false;
       })
-      .addCase(signInService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
-        state.error = payload;
+      .addCase(signInService.rejected, (state: IAuthState, { payload }) => {
+        state.error = JSON.stringify(payload);
         state.isAuth = false;
         state.loading = false;
       })
@@ -98,8 +101,8 @@ const authSlice = createSlice({
         state.error = '';
         state.loading = false;
       })
-      .addCase(signUpService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
-        state.error = payload;
+      .addCase(signUpService.rejected, (state: IAuthState, { payload }) => {
+        state.error = JSON.stringify(payload);
         state.loading = false;
         state.isAuth = false;
       })
@@ -110,14 +113,16 @@ const authSlice = createSlice({
         state.error = '';
         state.loading = false;
       })
-      .addCase(forgotService.rejected, (state: IAuthState, { payload }: PayloadAction<any>) => {
-        state.error = payload;
+      .addCase(forgotService.rejected, (state: IAuthState, { payload }) => {
+        state.error = JSON.stringify(payload);
         state.loading = false;
       });
   },
 });
 
-export const { setLoading, setToken, clearError, logout } = authSlice.actions;
+export const {
+  setLoading, setToken, clearError, logout,
+} = authSlice.actions;
 
 const authReducer = authSlice.reducer;
 export default authReducer;

@@ -5,15 +5,7 @@ export type IAuthState = {
   isAuth: boolean;
 };
 
-export interface ISignInRep {
-  email: string;
-  password: string;
-  callback: () => void;
-}
-
-export interface ISignUpRep {
-  first_name: string;
-  last_name: string;
+export interface IAuthRequest {
   email: string;
   password: string;
   callback: () => void;

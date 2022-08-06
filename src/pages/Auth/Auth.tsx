@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import useAppTranslate from '../../hooks/useAppTranslate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { MdAlternateEmail, MdLock } from 'react-icons/md';
+import useAppTranslate from '../../hooks/useAppTranslate';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { forgotService, signInService, signUpService } from '../../services/auth';
 
 interface IAuthForm {
   email: string;
@@ -18,11 +20,12 @@ const schema = yup
   })
   .required();
 
-const AuthScreen = () => {
+function AuthScreen() {
   const { type } = useParams<{ type: 'login' | 'register' | 'forgot' }>();
   const [authType, setAuthType] = useState<'login' | 'register' | 'forgot'>('login');
 
   const isAuth = useAppSelector((store) => store.auth.isAuth);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -32,7 +35,7 @@ const AuthScreen = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<IAuthForm>({ resolver: yupResolver(schema), mode: 'onBlur' });
+  } = useForm<IAuthForm>({ resolver: yupResolver(schema), mode: 'onChange' });
 
   useEffect(() => {
     if (isAuth) {
@@ -47,7 +50,41 @@ const AuthScreen = () => {
     }
   }, [navigate, type]);
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async (data) => {
+    switch (authType) {
+      case 'login':
+        dispatch(
+          signInService({
+            email: data.email,
+            password: data.password,
+            callback: () => {
+              navigate('home');
+            },
+          }),
+        );
+        break;
+      case 'register':
+        dispatch(
+          signUpService({
+            email: data.email,
+            password: data.password,
+            callback: () => {
+              navigate('home');
+            },
+          }),
+        );
+        break;
+      case 'forgot':
+        dispatch(
+          forgotService({
+            email: data.email,
+          }),
+        );
+        break;
+      default:
+        break;
+    }
+  });
 
   return (
     <div className="flex w-full h-screen justify-center items-center bg-white space-y-8 app-auth__form">
@@ -77,7 +114,7 @@ const AuthScreen = () => {
           {authType !== 'forgot' && (
             <>
               <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
-                <MdLock className="h-5 w-5 text-gray-400"></MdLock>
+                <MdLock className="h-5 w-5 text-gray-400" />
                 <input
                   {...register('password')}
                   className="pl-2 w-full outline-none border-none"
@@ -98,7 +135,7 @@ const AuthScreen = () => {
           </button>
           <div className="flex justify-between mt-4">
             <Link
-              to={`/auth/forgot`}
+              to="/auth/forgot"
               className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
             >
               Forgot Password ?
@@ -115,6 +152,6 @@ const AuthScreen = () => {
       </div>
     </div>
   );
-};
+}
 
 export default AuthScreen;
