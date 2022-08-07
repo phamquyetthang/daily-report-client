@@ -1,6 +1,6 @@
-import { getService } from '../../utils/http';
+import httpService from 'src/utils/http';
 import IReport from './type';
 
 export const getReportsApi = async (): Promise<IReport[]> => {
-  return await getService(`reports`);
+  return await httpService.get(`reports`);
 };

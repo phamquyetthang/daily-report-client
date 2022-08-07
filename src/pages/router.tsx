@@ -1,40 +1,35 @@
 import React from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import GlobalContainer from '../components/common/GlobalContainer';
-import AuthScreen from './Auth/Auth';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import AuthScreen from './Auth';
 
 const RootRouter = () => {
   return (
-    <BrowserRouter>
-      <GlobalContainer>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Navigate
-                to={'auth/login'}
-                replace
-              />
-            }
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Navigate
+            to={'auth/login'}
+            replace
           />
-          <Route path="auth">
-            <Route
-              path=""
-              element={
-                <Navigate
-                  to={'login'}
-                  replace
-                />
-              }
+        }
+      />
+      <Route path="auth">
+        <Route
+          path=""
+          element={
+            <Navigate
+              to={'login'}
+              replace
             />
-            <Route
-              path=":type"
-              element={<AuthScreen />}
-            />
-          </Route>
-        </Routes>
-      </GlobalContainer>
-    </BrowserRouter>
+          }
+        />
+        <Route
+          path=":type"
+          element={<AuthScreen />}
+        />
+      </Route>
+    </Routes>
   );
 };
 

@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISnack } from '../../utils/constants/common';
-import { IAppState } from './types';
 import { uniqueId } from 'lodash';
+import { ISnack } from 'src/utils/constants/common';
+
+import { IAppState } from './types';
+
 const initialState: IAppState = {
   projectId: '',
   projectName: '',
@@ -86,6 +88,8 @@ const appSlice = createSlice({
   },
 });
 
+const { reducer, actions } = appSlice;
+
 export const {
   loading,
   spinLoading,
@@ -97,7 +101,6 @@ export const {
   setProjectId,
   createAppErr,
   clearAppErr,
-} = appSlice.actions;
+} = actions;
 
-const appReducer = appSlice.reducer;
-export default appReducer;
+export default reducer;

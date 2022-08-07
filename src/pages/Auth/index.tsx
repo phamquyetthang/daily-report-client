@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,20 +8,15 @@ import { MdAlternateEmail, MdLock } from 'react-icons/md';
 import useAppTranslate from '../../hooks/useAppTranslate';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { forgotService, signInService, signUpService } from '../../services/auth';
+import { forgotPasswordApi, loginThunkAction } from 'src/services/auth/api';
+// import { loginThunkAction } from 'src/services/auth/api';
 
 interface IAuthForm {
   email: string;
   password: string;
 }
-const schema = yup
-  .object({
-    email: yup.string().email('Email is invalid').required('Email is required'),
-    password: yup.string().required('Password is required'),
-  })
-  .required();
 
-function AuthScreen() {
+const AuthScreen = () => {
   const { type } = useParams<{ type: 'login' | 'register' | 'forgot' }>();
   const [authType, setAuthType] = useState<'login' | 'register' | 'forgot'>('login');
 
@@ -30,6 +26,19 @@ function AuthScreen() {
   const navigate = useNavigate();
 
   const word = useAppTranslate();
+
+  const schema = useMemo(
+    () =>
+      yup
+        .object({
+          email: yup.string().email('Email is invalid').required('Email is required'),
+          ...(authType !== 'forgot' && {
+            password: yup.string().required('Password is required'),
+          }),
+        })
+        .required(),
+    [authType],
+  );
 
   const {
     register,
@@ -50,36 +59,30 @@ function AuthScreen() {
     }
   }, [navigate, type]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     switch (authType) {
       case 'login':
         dispatch(
-          signInService({
+          loginThunkAction({
             email: data.email,
             password: data.password,
-            callback: () => {
-              navigate('home');
-            },
           }),
-        );
+        )
+          .unwrap()
+          .then(() => navigate('/home'));
         break;
       case 'register':
         dispatch(
-          signUpService({
+          loginThunkAction({
             email: data.email,
             password: data.password,
-            callback: () => {
-              navigate('home');
-            },
           }),
-        );
+        )
+          .unwrap()
+          .then(() => navigate('/home'));
         break;
       case 'forgot':
-        dispatch(
-          forgotService({
-            email: data.email,
-          }),
-        );
+        dispatch(forgotPasswordApi({ email: data.email }));
         break;
       default:
         break;
@@ -152,6 +155,6 @@ function AuthScreen() {
       </div>
     </div>
   );
-}
+};
 
 export default AuthScreen;

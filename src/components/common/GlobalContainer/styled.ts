@@ -64,8 +64,8 @@ export const SnackBarWrapper = styled.div`
   z-index: 108;
 
   .snack {
-    width: 250px;
-    height: 50px;
+    min-width: 260px;
+    height: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -83,6 +83,8 @@ export const SnackBarWrapper = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
+      width: 100%;
+      padding: 0 8px;
 
       svg {
         margin-right: 8px;

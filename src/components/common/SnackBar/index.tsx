@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { closeSnackBar } from '../../../services/app';
 import { MdOutlineCheckCircleOutline, MdOutlineClose } from 'react-icons/md';
+import { useAppDispatch } from 'src/hooks/useAppDispatch';
+import { closeSnackBar } from 'src/services/app/reducer';
 interface IProps {
   type: string;
   message: string;

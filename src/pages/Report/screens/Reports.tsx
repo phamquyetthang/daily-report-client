@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { addSnackBar } from '../../../services/app';
-import { getReportsApi } from '../../../services/report/api';
-import IReport from '../../../services/report/type';
+import { useAppDispatch } from 'src/hooks/useAppDispatch';
+import { addSnackBar } from 'src/services/app/reducer';
+import { getReportsApi } from 'src/services/report/api';
+import IReport from 'src/services/report/type';
 import ReportCard from '../components/ReportCard';
 
 const Reports = () => {
